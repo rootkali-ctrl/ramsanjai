@@ -8,9 +8,6 @@ function App() {
   const [cameraActive, setCameraActive] = useState(false);
   const [error, setError] = useState('');
 
-  // API base URL - change this to your deployed FastAPI URL
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://your-fastapi-app.onrender.com';
-
   // Start camera
   const startCamera = async () => {
     try {
@@ -55,7 +52,7 @@ function App() {
     const imageData = canvas.toDataURL('image/jpeg');
     
     try {
-      const response = await fetch(`${API_BASE_URL}/api/detect-base64`, {
+      const response = await fetch('http://localhost:8000/api/detect-base64', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
