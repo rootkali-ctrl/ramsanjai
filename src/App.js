@@ -52,7 +52,8 @@ function App() {
     const imageData = canvas.toDataURL('image/jpeg');
     
     try {
-      const response = await fetch('http://localhost:8000/api/detect-base64', {
+      // Changed URL to work with deployment - removed localhost
+      const response = await fetch('/api/detect-base64', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +87,9 @@ function App() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     
     // Draw current video frame
-    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    if (videoRef.current) {
+      context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    }
     
     // Draw bounding boxes
     detections.forEach((detection, index) => {
@@ -117,7 +120,7 @@ function App() {
     if (cameraActive && detections.length > 0) {
       drawBoundingBoxes();
     }
-  }, [detections, cameraActive]);
+  }, [detections, cameraActive, drawBoundingBoxes]);
 
   // Auto-detect objects every 2 seconds when camera is active
   useEffect(() => {
